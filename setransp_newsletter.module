@@ -1,0 +1,37 @@
+<?php
+
+function setransp_newsletter_theme() {
+  $themes = array();
+  $themes['setransp_html'] = array (
+    'template' => 'setransp_html',
+    'path' => drupal_get_path('module', 'setransp_newsletter') . '/theme',
+  );
+  $themes['setransp_page'] = array (
+    'template' => 'setransp_page',
+    'path' => drupal_get_path('module', 'setransp_newsletter') . '/theme',
+  );
+  return $themes;
+}
+
+function setransp_newsletter_preprocess_html(&$variables) {
+  if ( check_nodetype() ){
+    $variables['theme_hook_suggestions'][] = 'setransp_html';
+  }
+}
+
+function setransp_newsletter_preprocess_page(&$variables) {
+  if ( check_nodetype() ){
+    $variables['theme_hook_suggestions'][] = 'setransp_page';
+  }
+}
+
+function check_nodetype() {
+  $node = node_load(arg(1));
+  if (!empty($node)){
+    if (!isset($node->revision)){
+      if ($node->type == 'newsletter') {
+        return TRUE;
+      }
+    }
+  }
+}
