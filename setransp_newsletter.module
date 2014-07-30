@@ -27,8 +27,10 @@ function setransp_newsletter_preprocess_page(&$variables) {
 
 function check_nodetype() {
   $node = node_load(arg(1));
+  $path = current_path();
+  $path_alias = drupal_lookup_path('alias',$path);
   if (!empty($node)){
-    if (!isset($node->revision)){
+    if (!empty($path_alias)){
       if ($node->type == 'newsletter') {
         return TRUE;
       }
